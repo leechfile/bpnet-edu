@@ -2,6 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import os
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
+from data_windows import Ui_Form
 
 class SimpleNeuralNetworkModified:
     def __init__(self, input_size, hidden_size, output_size, learning_rate=0.1, epochs=10000):
@@ -60,9 +64,39 @@ class SimpleNeuralNetworkModified:
         # 返回各层的权重
         return self.W1, self.W2
 
+class Data_windows(Ui_Form,QMainWindow):
+    """数据窗口的展示"""
+    def __init__(self):
+        super(Data_windows, self).__init__()
+        self.setupUi(self)
+        self.Load_btn.clicked.connect(self.openFileDialog)
+        self.df = None
 
 
+    def openFileDialog(self):
+        # 打开文件选择对话框
+        options = QFileDialog.Options()
+        init_path = os.getcwd()
+        filePath, _ = QFileDialog.getOpenFileName(self, '选择文件', init_path, 'All Files (*);;Text Files (*.txt);;Python Files (*.py)', options=options)
 
+        # 如果选择了文件，则更新表格
+        if filePath:
+            try:
+                self.df = pd.read_excel(filePath)
+                # self.Data.setRowCount(self.df.shape[0])
+                # self.Data.setColumnCount(self.df.shape[1])
+                self.Data.setHorizontalHeaderLabels(self.df.columns)
+                # 填充表格的数据
+                row_pos = 0
+                self.Data.insertRow(row_pos)
+                self.Data.setItem(row_pos,0,QTableWidgetItem(self.df.values))
+            except Exception as e:
+                # 弹出警告窗口
+                msg = QMessageBox()
+                msg.setText('wrong!!')#'upload excel file!'
+                print(e)
+                msg.show()
+                msg.exec_()
 
 def preprocess_data(data):
     """
@@ -82,7 +116,6 @@ def preprocess_data(data):
     data_standardized = (data_cleaned - mean) / std
 
     return data_standardized
-
 
 def visualize_data(data):
     """
@@ -106,7 +139,7 @@ def visualize_data(data):
     plt.title("Correlation Matrix")
     plt.show()
 
-if __name__ == '__main__':
+def waste():
     # 示例数据
     data_example = pd.DataFrame({
         'A': np.random.rand(100),
@@ -136,4 +169,11 @@ if __name__ == '__main__':
     weights_modified = nn_modified.get_weights()
 
     print(predictions_modified, weights_modified ) # 返回预测结果和网络的权重
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    windows = Data_windows()
+    windows.show()
+    sys.exit(app.exec_())
 

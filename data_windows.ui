@@ -45,17 +45,7 @@
     <string>加载教学数据</string>
    </property>
   </widget>
-  <widget class="QTableView" name="Data">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>30</y>
-     <width>521</width>
-     <height>321</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="Pre_btn">
    <property name="geometry">
     <rect>
      <x>430</x>
@@ -66,6 +56,16 @@
    </property>
    <property name="text">
     <string>数据可视化</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="Data">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>20</y>
+     <width>501</width>
+     <height>341</height>
+    </rect>
    </property>
   </widget>
  </widget>
