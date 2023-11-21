@@ -4,7 +4,7 @@ import seaborn as sns
 import numpy as np
 import os
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
+from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
 from data_windows import Ui_Form
 
 class SimpleNeuralNetworkModified:
@@ -70,6 +70,8 @@ class Data_windows(Ui_Form,QMainWindow):
         super(Data_windows, self).__init__()
         self.setupUi(self)
         self.Load_btn.clicked.connect(self.openFileDialog)
+        self.Edu_btn.clicked.connect(self.loadEduFile)
+        self.Pre_btn.clicked.connect(self.preData)
         self.df = None
 
 
@@ -77,19 +79,13 @@ class Data_windows(Ui_Form,QMainWindow):
         # 打开文件选择对话框
         options = QFileDialog.Options()
         init_path = os.getcwd()
-        filePath, _ = QFileDialog.getOpenFileName(self, '选择文件', init_path, 'All Files (*);;Text Files (*.txt);;Python Files (*.py)', options=options)
+        filePath, _ = QFileDialog.getOpenFileName(self, '选择文件', init_path, 'All Files (*);;Text Files (*.txt);;Excel Files (*.xlsx)', options=options)
 
         # 如果选择了文件，则更新表格
         if filePath:
             try:
-                self.df = pd.read_excel(filePath)
-                # self.Data.setRowCount(self.df.shape[0])
-                # self.Data.setColumnCount(self.df.shape[1])
-                self.Data.setHorizontalHeaderLabels(self.df.columns)
-                # 填充表格的数据
-                row_pos = 0
-                self.Data.insertRow(row_pos)
-                self.Data.setItem(row_pos,0,QTableWidgetItem(self.df.values))
+                self.fillTable(filePath)
+
             except Exception as e:
                 # 弹出警告窗口
                 msg = QMessageBox()
@@ -97,6 +93,34 @@ class Data_windows(Ui_Form,QMainWindow):
                 print(e)
                 msg.show()
                 msg.exec_()
+
+    def loadEduFile(self):
+        filepath = '9.2 演示功能模块数据.xlsx'
+        if os.path.exists(filepath):
+            self.fillTable(filepath)
+        else:
+            msg = QMessageBox()
+            msg.setText(f'{filepath} file not exist!!')
+            msg.show()
+            msg.exec_()
+
+    def fillTable(self,filepath=None):
+        if filepath:
+            self.df = pd.read_excel(filepath)
+        n, m = self.df.shape
+        self.Data.setRowCount(n)
+        self.Data.setColumnCount(m)
+        self.Data.setHorizontalHeaderLabels(self.df.columns)
+        # 填充表格的数据
+        for i in range(n):
+            for j in range(m):
+                # 设置表格
+                self.Data.setItem(i, j, QTableWidgetItem(self.df.iloc[i, j]))
+
+    def preData(self):
+        self.df = preprocess_data(self.df)
+        self.fillTable()
+        visualize_data(self.df)
 
 def preprocess_data(data):
     """
@@ -124,13 +148,16 @@ def visualize_data(data):
     :param data: pandas DataFrame，包含待可视化的数据
     """
     # 绘制直方图
-    data.hist(bins=15, figsize=(15, 6), layout=(2, 4))
-    plt.suptitle("Histograms of the features")
-    plt.show()
+    # 创建一个包含多个子图的图形
+    fig, axes = plt.subplots(1, 2, figsize=(15, 12))
 
+    # 绘制直方图
+    data.hist(bins=15, ax=axes[0, 0])
+    axes[0, 0].set_title("Histograms of the features")
     # 绘制箱线图
-    data.plot(kind='box', figsize=(15, 6), layout=(2, 4), subplots=True)
-    plt.suptitle("Boxplots of the features")
+    data.plot(kind='box', ax=axes[0, 1], subplots=True)
+    axes[0, 1].set_title("Boxplots of the features")
+    plt.tight_layout()     # 调整子图之间的间距
     plt.show()
 
     # 绘制相关性热图
