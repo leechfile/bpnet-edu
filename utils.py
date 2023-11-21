@@ -4,8 +4,9 @@ import seaborn as sns
 import numpy as np
 import os
 import sys
-from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
+from PyQt5.QtWidgets import QApplication,QWidget,QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
 from data_windows import Ui_Form
+from main_windows import Ui_MainWindow
 
 class SimpleNeuralNetworkModified:
     def __init__(self, input_size, hidden_size, output_size, learning_rate=0.1, epochs=10000):
@@ -64,7 +65,7 @@ class SimpleNeuralNetworkModified:
         # 返回各层的权重
         return self.W1, self.W2
 
-class Data_windows(Ui_Form,QMainWindow):
+class Data_windows(Ui_Form,QWidget):
     """数据窗口的展示"""
     def __init__(self):
         super(Data_windows, self).__init__()
@@ -121,6 +122,16 @@ class Data_windows(Ui_Form,QMainWindow):
         self.df = preprocess_data(self.df)
         self.fillTable()
         visualize_data(self.df)
+
+class Main_windows(Ui_MainWindow,QMainWindow):
+    def init(self):
+        super(Main_windows, self).init()
+        self.setupUi(self)
+        # 设置按钮的映射关系
+        self.edu_btn.clicked.connect()
+        self.exit_btn.clicked.connect(self.close)
+        self.test_nerual.clicked.connect()
+
 
 def preprocess_data(data):
     """
