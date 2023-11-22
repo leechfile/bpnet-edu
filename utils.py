@@ -157,18 +157,7 @@ def waste():
     # 可视化预处理后的数据
     visualize_data(preprocessed_data)
 
-    # 创建一个修改后的网络实例
-    nn_modified = SimpleNeuralNetworkModified(input_size=3, hidden_size=4, output_size=1, learning_rate=0.01,
-                                              epochs=1000)
 
-    # 使用同样的测试数据
-    nn_modified.train(X_train, y_train)
-
-    # 测试网络的预测功能
-    predictions_modified = nn_modified.predict(X_train)
-    weights_modified = nn_modified.get_weights()
-
-    print(predictions_modified, weights_modified ) # 返回预测结果和网络的权重
 
 
 

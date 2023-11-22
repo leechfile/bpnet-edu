@@ -16,8 +16,6 @@
 
 三个按钮,以及标题，使用Qt-Designer进行设计
 
-
-
 **stylesheet**：设置stylesheet例如
 
 `background-color:yellow `
