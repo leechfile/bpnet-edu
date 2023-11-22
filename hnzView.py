@@ -295,18 +295,6 @@ class View:
                         vArrow.rightNode=q
                         self.listVArrow.append(vArrow)
 
-
-
-
-
-        #vArrow = VArrow()
-        #aid = self.c.create_line(50, 25, 150, 75, arrow="last",tags = "drag")
-        #vArrow.setArrowId(aid)
-        #vArrow.create(self.c,)
-        #self.listVArrow.append(vArrow)
-        #self.c.pack()
-        #vu.tprint(aid)
-        #vu.tprint ("list varrow length= "+str(len(self.listVArrow)))
     def clearInputValue(self):
         for n in self.listInputNode:
             n.updateValue(0.0)

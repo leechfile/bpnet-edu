@@ -1,6 +1,7 @@
 from hnzView import *
 from tkinter import *
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from tkinter.filedialog import askopenfilename
 import csv
@@ -239,6 +240,7 @@ class Controller:
                 #unchangedBias = self.listBias[i].copy() #keep unchanged bias
                 self.listWeight[i] -= lr * dcost_wh
                 self.listBias[i] -= lr * dcost_bh.sum(axis=0)
+
     def loadTestFeature(self,path):#TODO load test feature set
         if len(path) > 0:
             self.view.statusbar["text"] = "Loading..... please wait for numbers shown in input nodes"
@@ -273,82 +275,69 @@ class Controller:
             self.trainFeatureSet.clear()
             self.view.clearInputValue()
             self.view.statusbar["text"] = "Test Feature set loading failed"
-    def loadTrainFeature(self,path):
-        """change to load the data"""
+
+
+
+    def loadTrainFeature(self, path):
+        """Loads training features and labels from an Excel file.
+           Assumes the last column is the target label."""
 
         if len(path) > 0:
-            self.view.statusbar["text"] = "Loading..... please wait for numbers shown in input nodes"
-            list=[]
-            f=open(path,"r")
-            lines=f.read().split('\n')
-            f.close()
-            #load into list
-            for l in lines:
-                #vu.tprint(l)
-                if l !="":
-                    self.inputTrainFilePath=l
-                    row=self.strToNp(l.split(","))
-                    list.append(row)
-            self.trainFeatureSet.clear()
-            self.trainFeatureSet=list
-            #check input node length
-            if self.trainFeatureSet[0].__len__()!=self.view.listInputNode.__len__():
-                self.view.combo1input.set(self.trainFeatureSet[0].__len__())
-                self.view.createNodes()
-            self.setInputValue(self.trainFeatureSet)
+            try:
+                self.view.statusbar["text"] = "Loading..... please wait"
+                # Load data from Excel file
+                df = pd.read_excel(path)
 
-            self.flagTrainFeatureLoad=True
-            self.view.statusbar["text"] = "Training Feature set loaded"
+                # Assuming the last column is the label
+                features = df.iloc[:, :-1]
+                labels = df.iloc[:, -1]
+
+                # Convert DataFrame to numpy array
+                self.trainFeatureSet = features.to_numpy()
+                self.trainLabelSet = labels.to_numpy()
+
+                # Check input node length
+                if len(self.trainFeatureSet[0]) != len(self.view.listInputNode):
+                    self.view.combo1input.set(len(self.trainFeatureSet[0]))
+                    self.view.createNodes()
+
+                # Check output node length
+                if len(np.atleast_1d(self.trainLabelSet[0])) != len(self.view.listOutputNode):
+                    self.view.combo5output.set(len(np.atleast_1d(self.trainLabelSet[0])))
+                    self.view.createNodes()
+
+                # Update input and output node values
+                self.setInputValue(self.trainFeatureSet)
+                for i, value in enumerate(np.atleast_1d(self.trainLabelSet[0])):
+                    self.view.listOutputNode[i].updateValue(value)
+
+                self.flagTrainFeatureLoad = True
+                self.flagTrainLabelLoad = True
+                self.view.statusbar["text"] = "Training data loaded successfully"
+
+            except Exception as e:
+                self.view.statusbar["text"] = f"Error loading training data: {e}"
+                self.flagTrainFeatureLoad = False
+                self.flagTrainLabelLoad = False
+                self.trainFeatureSet = []
+                self.trainLabelSet = []
+                self.view.clearInputValue()
+                self.view.clearOutputValue()
         else:
-            #load failed clean input
-            self.flagTrainFeatureLoad=False
-            self.trainFeatureSet.clear()
+            self.view.statusbar["text"] = "Path is empty. Loading failed."
+            self.flagTrainFeatureLoad = False
+            self.flagTrainLabelLoad = False
+            self.trainFeatureSet = []
+            self.trainLabelSet = []
             self.view.clearInputValue()
-            self.view.statusbar["text"] = "Training Feature set loading failed"
+            self.view.clearOutputValue()
 
     def setInputValue(self,set):
         # set input node value
         for i in range(set[0].__len__()):
             self.view.listInputNode[i].updateValue(set[0][i])
 
-    def loadTrainLabel(self,path):
 
-        if len(path) > 0:
-            self.outputTrainFilePath=path
-            self.view.statusbar["text"] = "Loading..... please wait for numbers shown in output nodes"
-            list=[]
-            f=open(path,"r")
-            lines=f.read().split('\n')
-            f.close()
-            for l in lines:
-                if l != "":
-                    vu.tprint(l)
-                    row=self.strToNp(l.split(","))
-                    list.append(row)
-            self.trainLabelSet.clear()
-            self.trainLabelSet = list
-            #vu.tprint("control train label set= ")
-            vu.tprint(self.trainLabelSet)
-            # check output node length
-
-            if self.trainLabelSet[0].__len__() != self.view.listOutputNode.__len__():
-                self.view.combo5output.set(self.trainLabelSet[0].__len__())
-                self.view.createNodes()
-                # re-set input node value
-                for i in range(self.trainFeatureSet[0].__len__()):
-                    self.view.listInputNode[i].updateValue(self.trainFeatureSet[0][i])
-
-            # set output node value
-            for i in range(self.trainLabelSet[0].__len__()):
-                self.view.listOutputNode[i].updateValue(self.trainLabelSet[0][i])
-            self.flagTrainLabelLoad=True
-            self.view.statusbar["text"] = "Training label set loaded"
-        else:
-            # load failed clean output
-            self.flagTrainLabelLoad=False
-            self.trainLabelSet.clear()
-            self.view.clearOutputValue()
-            self.view.statusbar["text"] = "Training Load set loading failed"
 
 if __name__ == "__main__":
     vu.tprint("controller")
