@@ -274,7 +274,7 @@ class Controller:
             self.view.clearInputValue()
             self.view.statusbar["text"] = "Test Feature set loading failed"
     def loadTrainFeature(self,path):
-
+        """change to load the data"""
 
         if len(path) > 0:
             self.view.statusbar["text"] = "Loading..... please wait for numbers shown in input nodes"
@@ -299,19 +299,18 @@ class Controller:
 
             self.flagTrainFeatureLoad=True
             self.view.statusbar["text"] = "Training Feature set loaded"
-        # test dot option->both work in same way
-        #vu.tprint(np.dot(self.trainFeatureSet,self.listWeight[0]))
-        #vu.tprint(np.dot(np.array(self.trainFeatureSet), np.array(self.listWeight[0])))
         else:
             #load failed clean input
             self.flagTrainFeatureLoad=False
             self.trainFeatureSet.clear()
             self.view.clearInputValue()
             self.view.statusbar["text"] = "Training Feature set loading failed"
+
     def setInputValue(self,set):
         # set input node value
         for i in range(set[0].__len__()):
             self.view.listInputNode[i].updateValue(set[0][i])
+
     def loadTrainLabel(self,path):
 
         if len(path) > 0:

@@ -60,58 +60,51 @@ class View:
         self.statusbar=tk.Label(self.midFrame,text="On the way…", bd=1, relief=tk.SUNKEN, anchor=tk.W,fg="red")
         #button
         #self.b1Arrow = tk.Button(self.leftFrame, text = "Create Arrow", command = self.createArrows, width=20, height = 1)
-        self.lab1input = tk.Label(self.leftFrame,text="input layer")
-        self.combo1input = ttk.Combobox(self.leftFrame,values=[1,2,3,4])
+        self.lab1input = tk.Label(self.leftFrame,text="输入层")
+        self.combo1input = ttk.Combobox(self.leftFrame,values=[1,2,3,4,5,6,7,8,9,10])
 
-        self.lab2layer1 = tk.Label(self.leftFrame, text="mid layer 1")
+        self.lab2layer1 = tk.Label(self.leftFrame, text="隐藏层 - 1")
         self.combo2layer1 = ttk.Combobox(self.leftFrame, values=[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        self.lab3layer2 = tk.Label(self.leftFrame, text="mid layer 2")
+        self.lab3layer2 = tk.Label(self.leftFrame, text="隐藏层 - 2")
         self.combo3layer2 = ttk.Combobox(self.leftFrame, values=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        self.lab4layer3 = tk.Label(self.leftFrame, text="mid layer 3")
+        self.lab4layer3 = tk.Label(self.leftFrame, text="隐藏层 - 3")
         self.combo4layer3 = ttk.Combobox(self.leftFrame, values=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        self.lab5output = tk.Label(self.leftFrame, text="output layer")
+        self.lab5output = tk.Label(self.leftFrame, text="输出层")
         self.combo5output = ttk.Combobox(self.leftFrame, values=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        self.b2Circle = tk.Button(self.leftFrame, text = "Create Network", command = self.createNodes, width =20, height =1)
-        self.lab6TrainDiv = tk.Label(self.leftFrame, text="===Train===")
+        self.b2Circle = tk.Button(self.leftFrame, text = "创造网络", command = self.createNodes, width =20, height =2)
+        self.lab6TrainDiv = tk.Label(self.leftFrame, text="===训练===")
         #self.b7randomNum = tk.Button(self.leftFrame, text="Random Number", command=self.randomNum, width=20, height=1)
         self.c = Canvas(self.midFrame, bg='white', width=vu.canvasWidth, height=vu.canvasHeight)
         self.c.tag_bind("drag", "<Button-1>", self.clicked)
         self.c.tag_bind("drag", "<B1-Motion>", self.drag)
         #training inputs
-        self.lab7LearningRate=tk.Label(self.leftFrame,text="learning Rate")
+        self.lab7LearningRate=tk.Label(self.leftFrame,text="学习率")
         self.combo6learningRate=ttk.Combobox(self.leftFrame,values=[0.0001,0.0005,0.001,0.005,0.01,0.05,0.1,0.5])
-        self.lab8epoch=tk.Label(self.leftFrame,text="number of epochs")
+        self.lab8epoch=tk.Label(self.leftFrame,text="迭代次数")
         self.combo7epoch = ttk.Combobox(self.leftFrame,
-                                               values=[10,5000,10000,50000,100000,200000,500000,1000000,2000000,5000000,
-                                                       10000000,20000000,50000000])
-        self.lab9refreshRate=tk.Label(self.leftFrame,text="Refresh rate (epochs)")
+                                               values=[10,30,50,80,100,500,1000])
+        self.lab9refreshRate=tk.Label(self.leftFrame,text="信息刷新率")
         self.combo8refreshRate = ttk.Combobox(self.leftFrame,
-                                        values=[2,100,200,300,500,1000,2000,3000])
-        self.b8LoadFeature=tk.Button(self.leftFrame, text="Load Features", command=self.loadTrainFeature, width=20, height=1)
-        self.b9LoadLabel = tk.Button(self.leftFrame, text="Load Labels", command=self.loadTrainLabel, width=20,
+                                        values=[1,2,5,10,30,50])
+        self.b8LoadFeature=tk.Button(self.leftFrame, text="加载数据", command=self.loadTrainFeature, width=20, height=1)
+        self.b9LoadLabel = tk.Button(self.leftFrame, text="加载标签", command=self.loadTrainLabel, width=20,
                                      height=1)
-        self.b10StartTrain=tk.Button(self.leftFrame, text="Start Training", command=self.startTrain,
+        self.b10StartTrain=tk.Button(self.leftFrame, text="开始训练", command=self.startTrain,
 
-                                                        width=20, height=1)
-        self.lab9aSaveLoadFile = tk.Label(self.leftFrame, text="===Save/Load NN===")
-        self.b10aSaveNN = tk.Button(self.leftFrame, text="Save Network", command=self.saveNN,
+                                                        width=20, height=2)
 
-                                                        width=20, height=1)
-        self.b10bLoadNN = tk.Button(self.leftFrame, text="Load Network", command=self.loadNN,
-
-                                    width=20, height=1)
         #prediction inputs
-        self.lab10DivPredection=tk.Label(self.leftFrame,text="===Prediction===")
-        self.b11LoadPreFeature = tk.Button(self.leftFrame, text="Load Predict Features", command=self.loadPreFeature, width=20,
+        self.lab10DivPredection=tk.Label(self.leftFrame,text="===预测===")
+        self.b11LoadPreFeature = tk.Button(self.leftFrame, text="加载预测数据", command=self.loadPreFeature, width=20,
                                        height=1)
-        self.b12StartPredict = tk.Button(self.leftFrame, text="Start Prediction", command=self.startPredict,
+        self.b12StartPredict = tk.Button(self.leftFrame, text="开始预测", command=self.startPredict,
                                          width=20, height=1)
-        self.lab11PreRounding=tk.Label(self.leftFrame,text="Rounding")
-        self.combo9PreRounding = ttk.Combobox(self.leftFrame,
-                                               values=[1, 0.1, 0.01, 0.001, 0.0001, 0.00001])
+        # self.lab11PreRounding=tk.Label(self.leftFrame,text="Rounding")
+        # self.combo9PreRounding = ttk.Combobox(self.leftFrame,
+        #                                        values=[1, 0.1, 0.01, 0.001, 0.0001, 0.00001])
+
         # hyper link
-        self.hyp1youtube = tk.Label(self.leftFrame, text="youtube.com/user/hhhnzw", fg="blue", cursor="hand2")
-        self.hyp1youtube.bind("<Button-1>", lambda e: self.callback("https://www.youtube.com/user/hhhnzw"))
+
         #error rate and prediction text boxes to right hand frame
         self.lab31ErrorRate=tk.Label(self.rightFrame,text="===Loss Function Value===")
 
@@ -173,17 +166,14 @@ class View:
         #canvas
         self.c.pack(side=TOP)
         #save load nn
-        self.lab9aSaveLoadFile.pack(side=TOP)
-        self.b10aSaveNN.pack(side=TOP)
-        self.b10bLoadNN.pack(side=TOP)
+
         #prediction buttons
         self.lab10DivPredection.pack(side=TOP)
         self.b11LoadPreFeature.pack(side=TOP)
         self.b12StartPredict.pack(side=TOP)
-        self.lab11PreRounding.pack(side=TOP)
-        self.combo9PreRounding.pack(side=TOP)
-        #hyper link
-        self.hyp1youtube.pack(side=TOP)
+        # self.lab11PreRounding.pack(side=TOP)
+        # self.combo9PreRounding.pack(side=TOP)
+
         #pack rightFrame
         self.lab31ErrorRate.pack(side=TOP)
         self.rightFrame1.pack(side=TOP, fill=BOTH)
@@ -208,95 +198,12 @@ class View:
         self.combo6learningRate.current(2)
         self.combo7epoch.current(1)#1, #0 for testing
         self.combo8refreshRate.current(2)#2, #0 for testing
-        self.combo9PreRounding.current(1)#2 round to 0.1
+        # self.combo9PreRounding.current(1)#2 round to 0.1
         self.statusbar["text"] = "Ready."
 
     def callback(self, url):
         webbrowser.open_new(url)
-    def saveNN(self): #TODO save and load NN
-        if self.flagNetworkTrained == False:
-            tk.messagebox.showinfo(title="Error", message="Please create and train network first")
 
-        else:
-            p = asksaveasfilename(initialdir="./", defaultextension=".nn",
-                                                    title="Save a network",
-                                                    filetypes=[("Network File", "*.nn")],
-                                                    )
-            if p is None:
-                self.statusbar["text"]="Network file saving failed."
-                return
-            else:
-                saveObjs =[]
-                saveObjs.append(self.combo1input.current())#0
-                saveObjs.append(self.combo2layer1.current())#1
-                saveObjs.append(self.combo3layer2.current())#2
-                saveObjs.append(self.combo4layer3.current())#3
-                saveObjs.append(self.combo5output.current())#4
-                saveObjs.append(self.combo6learningRate.current())#5
-                saveObjs.append(self.combo7epoch.current())#6
-                saveObjs.append(self.combo8refreshRate.current())#7
-                saveObjs.append(self.combo9PreRounding.current())#8
-                saveObjs.append(self.controller.listBias)#9
-                saveObjs.append(self.controller.listWeight)#10
-                layerLen=[]
-                for l in self.listVNode:
-                    layerLen.append(l.__len__())
-                saveObjs.append(layerLen)#11
-                with open(p,'wb') as saveFile:
-                    pickle.dump(saveObjs,saveFile)
-
-                self.statusbar["text"] = "Network file saved."
-
-
-    def loadNN(self):
-        p = askopenfilename(initialdir="./",
-                              title="Load a network",
-                              filetypes=[("Network File", "*.nn")],
-                              )
-        if p is None:
-            self.statusbar["text"] = "Network file saving failed."
-            return
-        else:
-            with open (p,'rb') as f:
-
-                loadObjs=pickle.load(f)
-
-                layerLen = loadObjs[11]
-                # TODO reinstate network and weights
-                self.combo1input.current(0)
-                self.combo2layer1.current(0)
-                self.combo3layer2.current(0)
-                self.combo4layer3.current(0)
-                self.combo5output.current(0)
-                for i in range (layerLen.__len__()):
-                    if i == layerLen.__len__()-1:
-                        self.combo5output.current(layerLen[i]-1)
-                    elif i == 2 or i == 3:
-                        self.listComboBox[i].current(layerLen[i])
-                    else:
-                        self.listComboBox[i].current(layerLen[i]-1)
-                self.clear()
-                self.createNodes()
-                self.controller.listBias = loadObjs[9]
-                self.controller.listWeight = loadObjs[10]
-                # update weighs in view
-                self.controller.flattenListWeight(self.controller.listWeight)
-                self.updateWeight(self.controller.listFlatWeight)
-                # update Biases in view
-                self.controller.flattenListBias(self.controller.listBias)
-                self.updateBias(self.controller.listFlatBias)
-                #update combo box as per saved, which may different from nn
-                self.combo1input.current(loadObjs[0])
-                self.combo2layer1.current(loadObjs[1])
-                self.combo3layer2.current(loadObjs[2])
-                self.combo4layer3.current(loadObjs[3])
-                self.combo5output.current(loadObjs[4])
-                self.combo6learningRate.current(loadObjs[5])
-                self.combo7epoch.current(loadObjs[6])
-                self.combo8refreshRate.current(loadObjs[7])
-                self.combo9PreRounding.current(loadObjs[8])
-            self.flagNetworkTrained=True
-            self.statusbar["text"] = "Network file loaded."
     def loadPreFeature(self):
         if self.flagNetworkTrained == False:
             tk.messagebox.showinfo(title="Error", message="Please create and train network first")
@@ -315,8 +222,8 @@ class View:
         else:
             self.trainFeaturePath=""
             self.trainFeaturePath = askopenfilename(initialdir="./",
-                                   filetypes=[("Text File", "*.txt"), ("All Files", "*.*")],
-                                   title="Choose a file."
+                                   filetypes=[('Excel File',"*.xlsx"),("Text File", "*.txt"), ("All Files", "*.*")],
+                                   title="选择一个文件"
                                    )
             self.controller.loadTrainFeature(self.trainFeaturePath)
 
@@ -434,7 +341,6 @@ class View:
         vu.tprint("listComboGet")
         vu.tprint(listComboGet)
 
-        #vu.tprint (listComboGet)
         totalColumn=len(listComboGet)
         j=0
         #listNodeCoord=[]
@@ -443,34 +349,20 @@ class View:
             j=j+1
             #node coord by column
             listNodeCoord=vu.getNodePosition(totalColumn,int(i),j)
-            #vu.tprint (listNodeCoord)
             listLayer=[]
             index+=1
-
-
-            #create nodes based on coordination
+           #create nodes based on coordination
             for c1 in listNodeCoord:
                 vNode = VNode()
                 vNode.create(self.c, c1[0], c1[1])
                 # append value box if in first or last column
                 if index == 1:#node with input
-                    #vValue = VValue()
-                    #vValue.create(self.c,vNode.getLeftCod(),-vu.valueWidth/2)
-                    #setup input node
                     vNode.what="input"
-                    #vNode.bias=1
-                    #vNode.updateBiasView()
-                    #vNode.addLeftArrow(vValue)
                     self.listInputNode.append(vNode)
-                    #vValue.setRightNode(vNode)
-                elif index == listComboGet.__len__():#node with output
-                    #vValue = VValue()
-                    #vValue.create(self.c, vNode.getRightCod(), vu.valueWidth / 2)
+                elif index == listComboGet.__len__():
                     # setup output node
                     vNode.what = "output"
-                    #vNode.addRightArrow(vValue)
                     self.listOutputNode.append(vNode)
-                    #vValue.setLeftNode(vNode)
                 listLayer.append(vNode)
             self.listVNode.append(listLayer)
 
@@ -505,26 +397,6 @@ class View:
         #vu.tprint ("clicked id: "+str(self.clickedid))
 
     def drag(self,event):
-        #search id to see if the item is in an arrow
-        #for column in self.listVArrow:
-            #for a in column:
-                #if a.containArrowText(self.clickedid):
-                    #vu.tprint("arrow found: "+str(self.clickedid))
-                    #a.moveArrowText(event.x-self.lastx, event.y-self.lasty)
-                    #self.lastx = event.x
-                    #self.lasty = event.y
-                    #return
-                #if a.containPtStart(self.clickedid):
-                    #vu.tprint("point found: " + str(self.clickedid))
-                    #a.movePtLeft(event.x, event.y)
-                    #self.lastx = event.x
-                    #self.lasty = event.y
-                    #return
-                #if a.containPtEnd(self.clickedid):
-                    #a.movePtRight(event.x, event.y)
-                    #self.lastx = event.x
-                    #self.lasty = event.y
-                    #return
         # search id to see if the item is in a node
         for column in self.listVNode:
             for n in column:

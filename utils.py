@@ -84,16 +84,15 @@ class Data_windows(Ui_Form,QMainWindow):
 
 
 class Main_windows(Ui_MainWindow,QMainWindow):
-    def init(self):
-        super(Main_windows, self).init()
+    def __init__(self):
+        super(Main_windows, self).__init__()
         self.setupUi(self)
         # 设置按钮的映射关系
-        self.edu_btn.clicked.connect(self.dataw)
+        self.datawindows = Data_windows()
+        self.edu_btn.clicked.connect(lambda :self.datawindows.show())
         self.exit_btn.clicked.connect(self.close)
         self.test_nerual.clicked.connect(self.dataw)
-    def dataw(self):
-        datawindows = Data_windows()
-        datawindows.show()
+
 
 
 
@@ -143,7 +142,7 @@ def visualize_data(data):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    windows = Data_windows()
+    windows = Main_windows()
     windows.show()
     sys.exit(app.exec_())
 

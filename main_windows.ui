@@ -14,7 +14,7 @@
    <string>主界面</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">{}</string>
+   <string notr="true">background-image:url(&quot;image/py-img.png&quot;);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
