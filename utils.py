@@ -8,7 +8,9 @@ from PyQt5.QtWidgets import QApplication,QWidget,QMainWindow, QFileDialog, QTabl
 from data_windows import Ui_Form
 from main_windows import Ui_MainWindow
 from models import SimpleNeuralNetwork
-import pdb
+from main import nerual_start
+
+
 
 
 
@@ -58,18 +60,27 @@ class Data_windows(Ui_Form,QMainWindow):
         n, m = self.df.shape
         self.Data.setRowCount(n)
         self.Data.setColumnCount(m)
-        pdb.set_trace()
+        # pdb.set_trace()
+        if not isinstance(self.df.columns[0], str):  # 或者使用 type(df.columns) != pd.Index
+            # 如果不是 pd.Index 类型，则转换为字符串类型
+            self.df.columns = self.df.columns.astype(str)
+
+        # 现在 df.columns 已经是字符串类型了
         self.Data.setHorizontalHeaderLabels(self.df.columns)
         # 填充表格的数据
         for i in range(n):
             for j in range(m):
                 # 设置表格
-                self.Data.setItem(i, j, QTableWidgetItem(self.df.iloc[i, j]))
+                self.Data.setItem(i, j, QTableWidgetItem(str(self.df.iloc[i, j])))
 
     def preData(self):
+        """我们需要传进去df,之后使用df进行训练,同时砍掉神经网络部分的功能 ()"""
+        # os.chdir('nerual_gui')
         self.df = preprocess_data(self.df)
         self.fillTable()
-        visualize_data(self.df)
+        # visualize_data(self.df)
+        # 导入模块 进行
+        nerual_start(self.df)
 
 
 class Main_windows(Ui_MainWindow,QMainWindow):
@@ -129,48 +140,6 @@ def visualize_data(data):
     sns.heatmap(data.corr(), annot=True, cmap='coolwarm')
     plt.title("Correlation Matrix")
     plt.show()
-
-def train_nerual(data):
-    """根据data的维度确定输入输出层的大小"""
-    #TODO 可能需要确定分类 或者是 回归
-
-    # 确定数据维度
-    n,m = data.shape
-
-    # 创建神经网络模型 , 训练和可视化
-
-def waste():
-    # 示例数据
-    data_example = pd.DataFrame({
-        'A': np.random.rand(100),
-        'B': np.random.rand(100) * 10,
-        'C': np.random.rand(100) * 100,
-        'D': np.random.randn(100)  # 正态分布
-    })
-
-    # 添加一些缺失值
-    data_example.loc[5:10, ['B', 'C']] = np.nan
-
-    # 预处理数据
-    preprocessed_data = preprocess_data(data_example)
-
-    # 可视化预处理后的数据
-    visualize_data(preprocessed_data)
-
-    # 创建一个修改后的网络实例
-    nn_modified = SimpleNeuralNetworkModified(input_size=3, hidden_size=4, output_size=1, learning_rate=0.01,
-                                              epochs=1000)
-
-    # 使用同样的测试数据
-    nn_modified.train(X_train, y_train)
-
-    # 测试网络的预测功能
-    predictions_modified = nn_modified.predict(X_train)
-    weights_modified = nn_modified.get_weights()
-
-    print(predictions_modified, weights_modified ) # 返回预测结果和网络的权重
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

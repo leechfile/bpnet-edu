@@ -21,8 +21,6 @@ class SimpleNeuralNetwork:
         # Sigmoid函数的导数
         return z * (1 - z)
 
-    def mse(self,y,y_hat):
-
     def forward(self, X):
         # 前向传播过程
         self.z2 = np.dot(X, self.W1)  # 隐藏层输入
