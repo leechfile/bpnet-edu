@@ -279,24 +279,27 @@ class Controller:
 
 
 
-    def loadTrainFeature(self, path):
+    def loadTrainFeature(self, path, data=None):
         """Loads training features and labels from an Excel file.
            Assumes the last column is the target label."""
 
         if len(path) > 0:
             try:
                 self.view.statusbar["text"] = "Loading..... please wait"
-                # Load data from Excel file
-                df = pd.read_excel(path)
+                if not data:
+                    # Load data from Excel file
+                    df = pd.read_excel(path)
+                    # Assuming the last column is the label
+                    features = df.iloc[:, :-1]
+                    labels = df.iloc[:, -1]
 
-                # Assuming the last column is the label
-                features = df.iloc[:, :-1]
-                labels = df.iloc[:, -1]
+                else:
+                    # Load data from class itself
+                    features = data.iloc[:, :-1]
+                    labels = data.iloc[:, -1]
 
-                # Convert DataFrame to numpy array
-                self.trainFeatureSet = features.to_numpy()
-                self.trainLabelSet = labels.to_numpy()
-
+                self.trainFeatureSet = features.values.tolist()
+                self.trainLabelSet = labels.values.tolist()
                 # Check input node length
                 if len(self.trainFeatureSet[0]) != len(self.view.listInputNode):
                     self.view.combo1input.set(len(self.trainFeatureSet[0]))

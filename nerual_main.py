@@ -13,7 +13,7 @@ def nerual_start(data=None):
     mainwin.title("Graphic Neural Network")
     #create view and controller
     controller=Controller()
-    view=View(mainwin)
+    view=View(mainwin,data=data)
     #cross lin view and controller
     controller.setView(view)
     view.setController(controller)

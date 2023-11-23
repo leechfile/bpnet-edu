@@ -16,7 +16,7 @@ import pickle
 
 class View:
 
-    def __init__(self, parent):
+    def __init__(self, parent,data=None):
         # initialize variables
         self.container = parent
         self.flagNetworkCreated = False
@@ -35,6 +35,7 @@ class View:
         self.trainLabelPath=""
         self.trainFeaturePath=""
         self.testFeaturePath = ""
+        self.data = data # data file
         #The 'subscriber' here
         #pub.subscribe(self.updateLossTxt,"update loss function txt")
 
@@ -221,11 +222,14 @@ class View:
             tk.messagebox.showinfo(title="Error", message="Please create network first")
         else:
             self.trainFeaturePath=""
-            self.trainFeaturePath = askopenfilename(initialdir="./",
-                                   filetypes=[('Excel File',"*.xlsx"),("Text File", "*.txt"), ("All Files", "*.*")],
-                                   title="选择一个文件"
-                                   )
-            self.controller.loadTrainFeature(self.trainFeaturePath)
+            if len(self.data) > 0:
+                self.controller.loadTrainFeature("ture",self.data)
+            else:
+                self.trainFeaturePath = askopenfilename(initialdir="./",
+                                       filetypes=[('Excel File',"*.xlsx"),("Text File", "*.txt"), ("All Files", "*.*")],
+                                       title="选择一个文件"
+                                       )
+                self.controller.loadTrainFeature(self.trainFeaturePath)
 
             #self.flagLoadTrainFeature=True
 

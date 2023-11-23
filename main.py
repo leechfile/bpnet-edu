@@ -22,6 +22,7 @@ class Data_windows(Ui_Form,QMainWindow):
         self.Load_btn.clicked.connect(self.openFileDialog)
         self.Edu_btn.clicked.connect(self.loadEduFile)
         self.Pre_btn.clicked.connect(self.preData)
+        self.Pre_btn.setText('预处理并开始训练')
         self.df = None
 
 
