@@ -15,11 +15,11 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
-        MainWindow.setStyleSheet("background-image:url(\"image/py-img.png\");")
+        MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(250, 110, 311, 121))
+        self.label.setGeometry(QtCore.QRect(250, 110, 391, 121))
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(28)

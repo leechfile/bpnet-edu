@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from tkinter.filedialog import askopenfilename
 import csv
 import vUtility as vu
+import pdb
 
 from datetime import datetime
 class Controller:
@@ -179,6 +180,7 @@ class Controller:
         previous_set = self.trainFeatureSet #initial previouse set
         self.listAhiddenLayer.clear()
         self.listZhiddenLayer.clear()
+        pdb.set_trace()
         for i in range (self.listWeight.__len__()):
             if i!=self.listWeight.__len__()-1:
                 # get node value
@@ -193,8 +195,7 @@ class Controller:
                 self.ao=self.softmax(zo)#value after softmax
                 self.listAhiddenLayer.append(self.ao)
                 self.listZhiddenLayer.append(zo)
-        #vu.tprint("self.ao length= "+str(self.ao.__len__()))
-        #vu.tprint(self.ao)
+
         #TODO back propagation
         targetValue_set = self.trainLabelSet
         value_set = self.ao
