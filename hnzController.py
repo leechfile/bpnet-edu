@@ -286,7 +286,7 @@ class Controller:
         if len(path) > 0:
             try:
                 self.view.statusbar["text"] = "Loading..... please wait"
-                if not data:
+                if not len(data)>0: # data is none
                     # Load data from Excel file
                     df = pd.read_excel(path)
                     # Assuming the last column is the label

@@ -16,8 +16,6 @@
 
 三个按钮,以及标题，使用Qt-Designer进行设计
 
-
-
 **stylesheet**：设置stylesheet例如
 
 `background-color:yellow `
@@ -51,3 +49,7 @@
 1.展现训练日志
 
 2.实现一个preprocess 模块进行
+
+
+
+-等到开始训练的时候-->又出现了问题无法进行训练，陷入了死循环
