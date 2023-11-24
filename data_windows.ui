@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>758</width>
-    <height>531</height>
+    <width>683</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="font">
@@ -19,12 +19,12 @@
   <property name="windowTitle">
    <string>数据界面</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>9</x>
      <y>10</y>
-     <width>731</width>
+     <width>658</width>
      <height>501</height>
     </rect>
    </property>
@@ -37,7 +37,7 @@
       <item>
        <widget class="QPushButton" name="Pre_btn">
         <property name="text">
-         <string>数据可视化</string>
+         <string>数据预处理</string>
         </property>
        </widget>
       </item>
@@ -52,6 +52,13 @@
        <widget class="QPushButton" name="Load_btn">
         <property name="text">
          <string>加载数据</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Train_btn">
+        <property name="text">
+         <string>开始训练</string>
         </property>
        </widget>
       </item>

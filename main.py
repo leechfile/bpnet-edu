@@ -5,6 +5,7 @@ import numpy as np
 import os
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
+from PyQt5.QtGui import QPainter,QPixmap
 from data_windows import Ui_Form
 from main_windows import Ui_MainWindow
 from models import SimpleNeuralNetwork
@@ -22,8 +23,10 @@ class Data_windows(Ui_Form,QMainWindow):
         self.Load_btn.clicked.connect(self.openFileDialog)
         self.Edu_btn.clicked.connect(self.loadEduFile)
         self.Pre_btn.clicked.connect(self.preData)
-        self.Pre_btn.setText('预处理并开始训练')
+        self.Pre_btn.setText('预处理数据')
+        self.Train_btn.clicked.connect(lambda :nerual_start(self.df))
         self.df = None
+        self.msg = QMessageBox()
 
 
     def openFileDialog(self):
@@ -39,21 +42,19 @@ class Data_windows(Ui_Form,QMainWindow):
 
             except Exception as e:
                 # 弹出警告窗口
-                msg = QMessageBox()
-                msg.setText('wrong!!')#'upload excel file!'
+                self.msg.setText('wrong!!')#'upload excel file!'
                 print(e)
-                msg.show()
-                msg.exec_()
+                self.msg.show()
+                # self.msg.exec_()
 
     def loadEduFile(self):
-        filepath = '9.2 演示功能模块数据.xlsx'
+        filepath = 'iris.xlsx'
         if os.path.exists(filepath):
             self.fillTable(filepath)
         else:
-            msg = QMessageBox()
-            msg.setText(f'{filepath} file not exist!!')
-            msg.show()
-            msg.exec_()
+            self.msg.setText(f'{filepath} file not exist!!')
+            self.msg.show()
+
 
     def fillTable(self,filepath=None):
         if filepath:
@@ -77,11 +78,18 @@ class Data_windows(Ui_Form,QMainWindow):
     def preData(self):
         """我们需要传进去df,之后使用df进行训练,同时砍掉神经网络部分的功能 ()"""
         # os.chdir('nerual_gui')
+        self.msg.setText('注意! 该神经网络平台只能演示分类问题,回归预测正在开发中!')
+        self.msg.show()
+        self.msg.exec_()
         self.df = preprocess_data(self.df)
         self.fillTable()
         # visualize_data(self.df)
         # 导入模块 进行
-        nerual_start(self.df)
+
+
+
+
+
 
 
 class Main_windows(Ui_MainWindow,QMainWindow):
@@ -94,27 +102,32 @@ class Main_windows(Ui_MainWindow,QMainWindow):
         self.exit_btn.clicked.connect(self.close)
         self.test_nerual.clicked.connect(lambda :self.datawindows.show())
 
+    def paintEvent(self,event,bg_img='image/bg1.jpg'):
+        painter = QPainter(self)
+        pixmap = QPixmap(bg_img)
+        painter.drawPixmap(self.rect(),pixmap)
 
 
 
-def preprocess_data(data):
+def preprocess_data(data:pd.DataFrame):
     """
     对数据进行预处理：标准化和删除缺失值。
 
     :param data: pandas DataFrame，包含待处理的数据
     :return: 预处理后的DataFrame
     """
-    # 删除缺失值
-    data_cleaned = data.dropna()
+    # 分离target
+    data = data.dropna()
+
+    data_cleaned = data.iloc[:,:-1]
+    label = data.iloc[:,-1]
 
     # 数据标准化
-    # 计算均值和标准差
-    mean = data_cleaned.mean()
-    std = data_cleaned.std()
-    # 应用标准化
-    data_standardized = (data_cleaned - mean) / std
 
-    return data_standardized
+    # 应用标准化
+    data_standardized = (data_cleaned - data_cleaned.min()) / (data_cleaned.max() - data_cleaned.min())
+
+    return pd.concat([data_standardized,label])
 
 def visualize_data(data):
     """
@@ -142,8 +155,10 @@ def visualize_data(data):
     plt.show()
 
 if __name__ == '__main__':
+    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
     app = QApplication(sys.argv)
     windows = Main_windows()
     windows.show()
     sys.exit(app.exec_())
+
 

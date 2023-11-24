@@ -180,7 +180,7 @@ class Controller:
         previous_set = self.trainFeatureSet #initial previouse set
         self.listAhiddenLayer.clear()
         self.listZhiddenLayer.clear()
-        pdb.set_trace()
+        # pdb.set_trace()
         for i in range (self.listWeight.__len__()):
             if i!=self.listWeight.__len__()-1:
                 # get node value
@@ -279,7 +279,7 @@ class Controller:
 
 
 
-    def loadTrainFeature(self, path, data=None):
+    def loadTrainFeature(self, path, data=None,nerual_type='classify'):
         """Loads training features and labels from an Excel file.
            Assumes the last column is the target label."""
 
@@ -297,6 +297,9 @@ class Controller:
                     # Load data from class itself
                     features = data.iloc[:, :-1]
                     labels = data.iloc[:, -1]
+
+                if nerual_type == 'classify':
+                    labels = self.onehot(labels)
 
                 self.trainFeatureSet = features.values.tolist()
                 self.trainLabelSet = labels.values.tolist()
@@ -340,6 +343,9 @@ class Controller:
         # set input node value
         for i in range(set[0].__len__()):
             self.view.listInputNode[i].updateValue(set[0][i])
+    def onehot(self,labels:pd.DataFrame):
+        """return onehot """
+        return pd.get_dummies(labels).astype(int)
 
 
 
