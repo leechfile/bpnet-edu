@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\data_windows.ui'
+# Form implementation generated from reading ui file 'data_windows.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -26,6 +26,12 @@ class Ui_Form(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.Data = QtWidgets.QTableWidget(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.Data.setFont(font)
         self.Data.setObjectName("Data")
         self.Data.setColumnCount(0)
         self.Data.setRowCount(0)
@@ -35,6 +41,9 @@ class Ui_Form(object):
         self.Pre_btn = QtWidgets.QPushButton(self.layoutWidget)
         self.Pre_btn.setObjectName("Pre_btn")
         self.horizontalLayout.addWidget(self.Pre_btn)
+        self.Vis_btn = QtWidgets.QPushButton(self.layoutWidget)
+        self.Vis_btn.setObjectName("Vis_btn")
+        self.horizontalLayout.addWidget(self.Vis_btn)
         self.Edu_btn = QtWidgets.QPushButton(self.layoutWidget)
         self.Edu_btn.setObjectName("Edu_btn")
         self.horizontalLayout.addWidget(self.Edu_btn)
@@ -53,6 +62,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "数据界面"))
         self.Pre_btn.setText(_translate("Form", "数据预处理"))
+        self.Vis_btn.setText(_translate("Form", "数据可视化"))
         self.Edu_btn.setText(_translate("Form", "加载教学数据"))
         self.Load_btn.setText(_translate("Form", "加载数据"))
         self.Train_btn.setText(_translate("Form", "开始训练"))

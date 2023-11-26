@@ -12,7 +12,7 @@ from hnzController import *
 import webbrowser
 import vUtility as vu
 import pickle
-
+import matplotlib.pyplot as plt
 
 class View:
 
@@ -88,8 +88,8 @@ class View:
         self.combo8refreshRate = ttk.Combobox(self.leftFrame,
                                         values=[1,2,5,10,30,50])
         self.b8LoadFeature=tk.Button(self.leftFrame, text="加载数据", command=self.loadTrainFeature, width=20, height=1)
-        self.b9LoadLabel = tk.Button(self.leftFrame, text="加载标签", command=self.loadTrainLabel, width=20,
-                                     height=1)
+        # self.b9LoadLabel = tk.Button(self.leftFrame, text="加载标签", command=self.loadTrainLabel, width=20,
+        #                              height=1)
         self.b10StartTrain=tk.Button(self.leftFrame, text="开始训练", command=self.startTrain,
 
                                                         width=20, height=2)
@@ -107,9 +107,11 @@ class View:
         # hyper link
 
         #error rate and prediction text boxes to right hand frame
-        self.lab31ErrorRate=tk.Label(self.rightFrame,text="===Loss Function Value===")
+        self.lab31ErrorRate=tk.Label(self.rightFrame,text="===损失函数值===")
 
         self.text31ErrorTxtbox=tk.Text(self.rightFrame1,width=30)
+        self.drawLossPic = tk.Button(self.rightFrame, text="绘制损失图像", command=self.drawPic,
+                                                        width=20, height=1)
         self.scl31vbar = tk.Scrollbar(self.rightFrame1, orient=VERTICAL)
         self.text31ErrorTxtbox.config(yscrollcommand=self.scl31vbar.set)
         self.scl31vbar.config(command=self.text31ErrorTxtbox.yview)
@@ -161,7 +163,7 @@ class View:
         self.lab9refreshRate.pack(side=TOP)
         self.combo8refreshRate.pack(side=TOP)
         self.b8LoadFeature.pack(side=TOP)
-        self.b9LoadLabel.pack(side=TOP)
+        # self.b9LoadLabel.pack(side=TOP)
         self.b10StartTrain.pack(side=TOP)
 
         #canvas
@@ -180,6 +182,7 @@ class View:
         self.rightFrame1.pack(side=TOP, fill=BOTH)
         self.text31ErrorTxtbox.pack(side=LEFT)
         self.scl31vbar.pack(side=LEFT,fill=Y)
+        self.drawLossPic.pack(side=TOP)
 
         self.lab32PredictionResult.pack(side=TOP)
         self.rightFrame2.pack(side=BOTTOM, fill=BOTH)
@@ -188,7 +191,7 @@ class View:
 
         self.statusbar.pack(side=tk.BOTTOM, fill=tk.X)
         #set default combobox default value
-        self.combo1input.current(2)
+        self.combo1input.current(3)
         self.combo2layer1.current(3)
         self.combo3layer2.current(0)
         #self.combo3layer2["state"]=DISABLED
@@ -196,9 +199,9 @@ class View:
         #self.combo4layer3["state"] = DISABLED
         self.combo5output.current(2)
         #set train combobox
-        self.combo6learningRate.current(2)
+        self.combo6learningRate.current(5)
         self.combo7epoch.current(1)#1, #0 for testing
-        self.combo8refreshRate.current(2)#2, #0 for testing
+        self.combo8refreshRate.current(0)#2, #0 for testing
         # self.combo9PreRounding.current(1)#2 round to 0.1
         self.statusbar["text"] = "Ready."
 
@@ -245,6 +248,19 @@ class View:
             self.controller.loadTrainLabel(self.trainLabelPath)
 
             #self.flagLoadTrainLabel=True
+
+
+    def drawPic(self):
+        loss = self.controller.history['loss']
+        epochs = range(1, len(loss) + 1)
+        plt.figure()
+        plt.plot(epochs, loss, label='Training Loss')
+        plt.xticks([])
+        plt.xlabel('epoch')
+        plt.ylabel('Loss')
+        plt.legend()
+        plt.show()
+
     def startTrain(self):
         if self.controller.flagTrainLabelLoad == False:
             tk.messagebox.showinfo(title="Error", message="Please create network, and load training feature and label first.")
@@ -358,10 +374,6 @@ class View:
                 listLayer.append(vNode)
             self.listVNode.append(listLayer)
 
-
-        #pub.sendMessage("Button_createNode_Clicked")
-        #self.b2Circle["state"]=DISABLED
-        #create arrows
         self.createArrows()
         self.flattenListVNode()
         #setup controller network

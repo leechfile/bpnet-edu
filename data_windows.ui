@@ -30,7 +30,16 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTableWidget" name="Data"/>
+     <widget class="QTableWidget" name="Data">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -38,6 +47,13 @@
        <widget class="QPushButton" name="Pre_btn">
         <property name="text">
          <string>数据预处理</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Vis_btn">
+        <property name="text">
+         <string>数据可视化</string>
         </property>
        </widget>
       </item>

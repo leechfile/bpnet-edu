@@ -31,6 +31,7 @@ class Controller:
         self.listZhiddenLayer=[] #node sum value before sigmoid function
         self.error_cost=[]
         self.ao=None
+        self.history = {}
         self.inputTrainFilePath=""
         self.outputTrainFilePath=""
         np.random.seed(42)
@@ -137,10 +138,12 @@ class Controller:
         self.view.text31ErrorTxtbox.delete('1.0', END)
         totalCheck=int(self.view.combo7epoch.get())/(int(self.view.combo8refreshRate.get()))
         i=1
+        self.history['loss'] = []
         for epoch in range(int(self.view.combo7epoch.get())):
             self.trainLoop()
             if epoch % (int(self.view.combo8refreshRate.get())) == 0:
-                loss = np.sum(-np.array(self.trainLabelSet) * np.log(self.ao))
+                loss = np.mean(-np.array(self.trainLabelSet) * np.log(self.ao)) # sum change to mean
+                self.history['loss'].append(loss)
                 #vu.tprint('Loss function value: ', loss)
                 lossTxt=str(loss)+"\n"
                 self.view.text31ErrorTxtbox.insert(INSERT, lossTxt)
