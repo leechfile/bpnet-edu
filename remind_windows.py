@@ -32,7 +32,7 @@ class Ui_remind_windows(object):
         self.textBrowser.setGeometry(QtCore.QRect(60, 120, 341, 171))
         self.textBrowser.setObjectName("textBrowser")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(450, 100, 71, 211))
+        self.tableWidget.setGeometry(QtCore.QRect(450, 100, 81, 211))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(7)
@@ -67,7 +67,7 @@ class Ui_remind_windows(object):
 
     def retranslateUi(self, remind_windows):
         _translate = QtCore.QCoreApplication.translate
-        remind_windows.setWindowTitle(_translate("remind_windows", "MainWindow"))
+        remind_windows.setWindowTitle(_translate("remind_windows", "教学提示"))
         self.label.setText(_translate("remind_windows", "神经网络平台使用教学以及注意事项"))
         self.textBrowser.setHtml(_translate("remind_windows", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

@@ -188,7 +188,7 @@ class View:
 
         self.statusbar.pack(side=tk.BOTTOM, fill=tk.X)
         #set default combobox default value
-        self.combo1input.current(1)
+        self.combo1input.current(2)
         self.combo2layer1.current(3)
         self.combo3layer2.current(0)
         #self.combo3layer2["state"]=DISABLED

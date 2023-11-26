@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>教学提示</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
@@ -63,7 +63,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>450</x>
       <y>100</y>
-      <width>71</width>
+      <width>81</width>
       <height>211</height>
      </rect>
     </property>
