@@ -7,6 +7,7 @@ import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem,QMessageBox
 from data_windows import Ui_Form
 from main_windows import Ui_MainWindow
+from remind_windows import Ui_remind_windows
 from models import SimpleNeuralNetwork
 from nerual_main import nerual_start
 
@@ -46,7 +47,7 @@ class Data_windows(Ui_Form,QMainWindow):
                 msg.exec_()
 
     def loadEduFile(self):
-        filepath = '9.2 演示功能模块数据.xlsx'
+        filepath = 'iris.xlsx'
         if os.path.exists(filepath):
             self.fillTable(filepath)
         else:
@@ -90,11 +91,20 @@ class Main_windows(Ui_MainWindow,QMainWindow):
         self.setupUi(self)
         # 设置按钮的映射关系
         self.datawindows = Data_windows()
-        self.edu_btn.clicked.connect(lambda :self.datawindows.show())
+        self.edu_btn.clicked.connect(self.edu_clicked)
         self.exit_btn.clicked.connect(self.close)
         self.test_nerual.clicked.connect(lambda :self.datawindows.show())
+        self.Remind_windows = Remind_windows()
+        self.Remind_windows.show()
+    def edu_clicked(self):
+        self.datawindows.show()
+        self.datawindows.loadEduFile()
 
-
+class Remind_windows(Ui_remind_windows,QMainWindow):
+    def __init__(self):
+        super(Remind_windows, self).__init__()
+        self.setupUi(self)
+        self.Close_btn.clicked.connect(self.close)
 
 
 def preprocess_data(data):
