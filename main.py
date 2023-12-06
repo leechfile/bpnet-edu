@@ -34,7 +34,6 @@ class Data_windows(Ui_Form,QMainWindow):
         self.Vis_btn.clicked.connect(self.visData)
         # self.Pre_btn.setText('数据预处理')
 
-
         self.df = None
         self.msg = QMessageBox()
         self.vis_windows = None
@@ -101,6 +100,7 @@ class Data_windows(Ui_Form,QMainWindow):
         self.msg.exec_()
         self.df = preprocess_data(self.df)
         self.fillTable()
+
     def visData(self):
         # self.vis_windows.data = self.df
         self.vis_windows.show()
